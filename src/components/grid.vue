@@ -134,5 +134,6 @@ function reset() {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  cursor: no-drop;
 }
 </style>

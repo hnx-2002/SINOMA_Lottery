@@ -16,7 +16,7 @@ const theme = {
 </script>
 
 <template>
-  <div style="text-align: center; font-size: 2em; font-weight: bold; line-height: 2.25">数字所年会抽奖系统</div>
+  <div class="title">数字所年会抽奖系统</div>
   <n-config-provider :abstract="true" :theme-overrides="theme">
     <n-card
       style="
@@ -24,7 +24,7 @@ const theme = {
         margin: 0 auto;
         flex: 1;
         margin-bottom: 20px;
-        box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.08), 0 3px 6px 0 rgba(0, 0, 0, 0.06), 0 5px 12px 4px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.32), 0 3px 6px 0 rgba(0, 0, 0, 0.24), 0 5px 12px 4px rgba(0, 0, 0, 0.16);
       "
       :content-style="{
         padding: 0,
@@ -54,5 +54,15 @@ body,
 #app {
   display: flex;
   flex-direction: column;
+  background-image: url(./assets/bg.jpg);
+  background-size: cover;
+}
+.title {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 2.25;
+  color: #ece7b6;
+  letter-spacing: 2px;
 }
 </style>
