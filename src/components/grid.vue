@@ -30,7 +30,7 @@ const names = useStorage(
       active: false,
     },
     {
-      name: '可调节颈拖',
+      name: '可调节颈托',
       active: false,
     },
     {
@@ -99,24 +99,41 @@ function reset() {
   <n-grid x-gap="12" :cols="5" y-gap="12" style="width: 80%; margin: 0 auto">
     <n-gi v-for="(item, index) in names">
       <div class="grid-item">
-        <div v-if="item.active" class="gift">
-          <div>{{ item.name }}</div>
-          <div>{{ index + 1 }}</div>
-        </div>
-        <div v-else class="big-number" @click="item.active = true">{{ index + 1 }}</div>
+        <transition>
+          <div
+            v-if="item.active"
+            class="gift"
+            :style="{
+              'background-image': `url(/szsnh/img/${item.name}.jpg)`,
+            }"
+          >
+            <div class="gift-name">{{ item.name }}</div>
+          </div>
+          <div v-else class="big-number" @click="item.active = true">{{ index + 1 }}</div>
+        </transition>
       </div>
     </n-gi>
   </n-grid>
   <div style="text-align: center">
-    <n-button type="primary" style="margin-top: 17px; margin-bottom: 5px" @click="reset">重置</n-button>
+    <n-button type="primary" style="margin-top: 16px; margin-bottom: 5px" @click="reset">重置</n-button>
   </div>
 </template>
 <style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 .grid-item {
-  background-color: #eaf2ff;
-  border: 1px solid #2b78ea;
+  background-color: #ffe9e7;
+  border: 1px solid #c43427;
   aspect-ratio: 1/1;
   border-radius: 4px;
+  overflow: hidden;
 }
 .big-number {
   width: 100%;
@@ -136,5 +153,13 @@ function reset() {
   align-items: center;
   flex-direction: column;
   cursor: no-drop;
+  background-size: cover;
+  border-radius: 4px;
+}
+.gift-name {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  width: 100%;
+  text-align: center;
 }
 </style>

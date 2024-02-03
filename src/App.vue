@@ -4,9 +4,9 @@ import grid from './components/grid.vue';
 import lucky from './components/lucky.vue';
 const theme = {
   common: {
-    primaryColor: '#3083fd',
-    primaryColorHover: '#4096fd',
-    primaryColorPressed: '#2b78ea',
+    primaryColor: '#c43427',
+    primaryColorHover: '#c64034',
+    primaryColorPressed: '#b11f12',
     fontSize: '16px',
   },
   Card: {
@@ -28,7 +28,6 @@ const theme = {
       "
       :content-style="{
         padding: 0,
-        paddingBottom: '12px',
       }"
     >
       <n-tabs type="line" animated justify-content="space-evenly" size="large">
