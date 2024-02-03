@@ -6,7 +6,55 @@ const names = useStorage(
   'my-store',
   [
     {
+      name: '花花加湿器',
+      active: false,
+    },
+    {
+      name: '拖把组合',
+      active: false,
+    },
+    {
+      name: '按压冰格',
+      active: false,
+    },
+    {
+      name: '腕力球',
+      active: false,
+    },
+    {
+      name: '充气颈枕',
+      active: false,
+    },
+    {
+      name: '鸡蛋收纳盒',
+      active: false,
+    },
+    {
+      name: '可调节颈拖',
+      active: false,
+    },
+    {
+      name: '多功能日历',
+      active: false,
+    },
+    {
       name: '置物架',
+      active: false,
+    },
+    {
+      name: '咖啡打泡器',
+      active: false,
+    },
+    {
+      name: '硅胶手托',
+      active: false,
+    },
+    {
+      name: '折叠盆组合',
+      active: false,
+    },
+    {
+      name: '蒸汽眼罩',
       active: false,
     },
     {
@@ -22,67 +70,20 @@ const names = useStorage(
       active: false,
     },
     {
-      name: '折叠盆组合',
-      active: false,
-    },
-    {
-      name: '按压冰格',
-      active: false,
-    },
-    {
-      name: '多功能日历',
-      active: false,
-    },
-    {
       name: '拉力带',
       active: false,
     },
     {
-      name: '蒸汽眼罩',
+      name: '自动开合油壶',
       active: false,
     },
     {
       name: '六面魔豆',
       active: false,
     },
-    {
-      name: '腕力球',
-      active: false,
-    },
-    {
-      name: '充气颈枕',
-      active: false,
-    },
-    {
-      name: '花花加湿器',
-      active: false,
-    },
-    {
-      name: '拖把组合',
-      active: false,
-    },
-    {
-      name: '咖啡打泡器',
-      active: false,
-    },
-    {
-      name: '硅胶手托',
-      active: false,
-    },
-    {
-      name: '鸡蛋收纳盒',
-      active: false,
-    },
-    {
-      name: '可调节颈拖',
-      active: false,
-    },
+
     {
       name: '5合1杯刷',
-      active: false,
-    },
-    {
-      name: '自动开合油壶',
       active: false,
     },
   ],
