@@ -34,13 +34,13 @@ const theme = {
       }"
     >
       <n-tabs type="line" animated justify-content="space-evenly" size="large">
-        <n-tab-pane name="三等奖" tab="三等奖">
+        <n-tab-pane name="三等奖" tab="三等奖" display-directive="show">
           <lucky :num="5"></lucky>
         </n-tab-pane>
-        <n-tab-pane name="二等奖" tab="二等奖">
+        <n-tab-pane name="二等奖" tab="二等奖" display-directive="show">
           <lucky :num="2"></lucky>
         </n-tab-pane>
-        <n-tab-pane name="一等奖" tab="一等奖">
+        <n-tab-pane name="一等奖" tab="一等奖" display-directive="show">
           <lucky></lucky>
         </n-tab-pane>
       </n-tabs>
