@@ -2,6 +2,8 @@
 import { NTabs, NTabPane, NCard, NConfigProvider } from 'naive-ui';
 import grid from './components/grid.vue';
 import lucky from './components/lucky.vue';
+import { useFullscreen } from '@vueuse/core';
+const { isFullscreen, toggle } = useFullscreen();
 const theme = {
   common: {
     primaryColor: '#c43427',
@@ -16,7 +18,8 @@ const theme = {
 </script>
 
 <template>
-  <div class="title">数字所年会抽奖系统</div>
+  <div class="title" @click="toggle">数字所年会抽奖系统</div>
+
   <n-config-provider :abstract="true" :theme-overrides="theme">
     <n-card
       style="
@@ -31,10 +34,13 @@ const theme = {
       }"
     >
       <n-tabs type="line" animated justify-content="space-evenly" size="large">
-        <n-tab-pane name="翻牌子" tab="翻牌子">
-          <grid></grid>
+        <n-tab-pane name="三等奖" tab="三等奖">
+          <lucky :num="5"></lucky>
         </n-tab-pane>
-        <n-tab-pane name="谁是幸运儿" tab="谁是幸运儿">
+        <n-tab-pane name="二等奖" tab="二等奖">
+          <lucky :num="2"></lucky>
+        </n-tab-pane>
+        <n-tab-pane name="一等奖" tab="一等奖">
           <lucky></lucky>
         </n-tab-pane>
       </n-tabs>
