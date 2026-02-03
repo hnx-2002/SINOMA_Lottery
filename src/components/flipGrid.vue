@@ -239,6 +239,7 @@ function handleImgError(e, name) {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  z-index: 0;
 }
 .back.placeholder {
   background: #f7f7f7;
@@ -258,5 +259,7 @@ function handleImgError(e, name) {
   color: #fff;
   background: rgba(0, 0, 0, 0.6);
   font-size: 14px;
+  z-index: 1;
+  position: relative;
 }
 </style>
