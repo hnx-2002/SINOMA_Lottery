@@ -1,8 +1,11 @@
 <script setup>
-import { NCard, NConfigProvider, NMessageProvider } from 'naive-ui';
-import lucky from './components/lucky.vue';
+import { NCard, NConfigProvider, NMessageProvider, NTabPane, NTabs } from 'naive-ui';
+import Lucky from './components/lucky.vue';
+import PrizeBoard from './components/prizeBoard.vue';
 import { useFullscreen } from '@vueuse/core';
+import { ref } from 'vue';
 const { toggle } = useFullscreen();
+const activeTab = ref('draw');
 const theme = {
   common: {
     primaryColor: '#c43427',
@@ -33,7 +36,14 @@ const theme = {
           padding: 0,
         }"
       >
-        <lucky />
+        <n-tabs v-model:value="activeTab" type="line" animated justify-content="space-evenly" size="large">
+          <n-tab-pane name="draw" tab="抽号" display-directive="show">
+            <lucky />
+          </n-tab-pane>
+          <n-tab-pane name="prize" tab="翻牌" display-directive="show">
+            <prize-board />
+          </n-tab-pane>
+        </n-tabs>
       </n-card>
     </n-message-provider>
   </n-config-provider>
