@@ -40,7 +40,7 @@ const theme = {
           <n-tab-pane name="draw" tab="抽号" display-directive="show">
             <lucky />
           </n-tab-pane>
-          <n-tab-pane name="prize" tab="翻牌" display-directive="show">
+          <n-tab-pane name="prize" tab="翻牌" display-directive="if">
             <prize-board />
           </n-tab-pane>
         </n-tabs>

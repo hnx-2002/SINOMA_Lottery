@@ -3,6 +3,8 @@ import { NButton, NFlex, NSpace } from 'naive-ui';
 import { computed } from 'vue';
 import { useStorage } from '@vueuse/core';
 
+const DEFAULT_PLACEHOLDER_NAME = '谢谢参与';
+
 const props = defineProps({
   cols: {
     type: Number,
@@ -20,9 +22,17 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  prizeNames: {
+  prizes: {
     type: Array,
     required: true,
+  },
+  imgDir: {
+    type: String,
+    required: true,
+  },
+  placeholderName: {
+    type: String,
+    default: DEFAULT_PLACEHOLDER_NAME,
   },
 });
 
@@ -37,7 +47,25 @@ function shuffleInPlace(arr) {
 const cellCount = computed(() => props.rows * props.cols);
 
 function buildCells() {
-  const pool = Array.from({ length: cellCount.value }, (_, i) => props.prizeNames[i % props.prizeNames.length]);
+  const normalized = (props.prizes || [])
+    .map((p) => ({
+      name: typeof p?.name === 'string' ? p.name : '',
+      count: typeof p?.count === 'number' && Number.isFinite(p.count) ? Math.max(0, Math.floor(p.count)) : 0,
+    }))
+    .filter((p) => p.name && p.count > 0);
+
+  const pool = [];
+  normalized.forEach((p) => {
+    for (let i = 0; i < p.count; i++) pool.push(p.name);
+  });
+
+  if (pool.length < cellCount.value) {
+    const missing = cellCount.value - pool.length;
+    for (let i = 0; i < missing; i++) pool.push(props.placeholderName);
+  } else if (pool.length > cellCount.value) {
+    pool.length = cellCount.value;
+  }
+
   const shuffled = shuffleInPlace([...pool]);
   return shuffled.map((name) => ({
     name,
@@ -70,8 +98,41 @@ function reveal(index) {
   cells.value[index] = { ...cell, revealed: true };
 }
 
+function buildPublicImgUrl({ rootDir, prizeDir, name, ext }) {
+  const encoded = encodeURIComponent(name);
+  return `${import.meta.env.BASE_URL}${rootDir}/${prizeDir}/${encoded}.${ext}`;
+}
+
 function imgUrl(name) {
-  return `${import.meta.env.BASE_URL}img/${name}.jpg`;
+  return buildPublicImgUrl({ rootDir: 'img', prizeDir: props.imgDir, name, ext: 'png' });
+}
+
+function fallbackImgUrls(name) {
+  return [
+    buildPublicImgUrl({ rootDir: 'image', prizeDir: props.imgDir, name, ext: 'png' }),
+    buildPublicImgUrl({ rootDir: 'img', prizeDir: props.imgDir, name, ext: 'jpg' }),
+    buildPublicImgUrl({ rootDir: 'image', prizeDir: props.imgDir, name, ext: 'jpg' }),
+  ];
+}
+
+function isPlaceholder(name) {
+  return name === props.placeholderName;
+}
+
+function handleImgError(e, name) {
+  if (isPlaceholder(name)) return;
+  const img = e?.target;
+  if (!img) return;
+
+  const candidates = [imgUrl(name), ...fallbackImgUrls(name)];
+
+  const index = Number.parseInt(img.dataset?.fallbackIndex ?? '0', 10);
+  const nextIndex = Number.isFinite(index) ? index + 1 : 1;
+  const next = candidates[nextIndex];
+  if (!next) return;
+
+  img.dataset.fallbackIndex = String(nextIndex);
+  img.src = next;
 }
 </script>
 
@@ -92,7 +153,18 @@ function imgUrl(name) {
             <div class="face front">
               <div class="num">{{ index + 1 }}</div>
             </div>
-            <div class="face back" :style="{ backgroundImage: `url(${imgUrl(cell.name)})` }">
+            <div
+              class="face back"
+              :class="{ placeholder: isPlaceholder(cell.name) }"
+            >
+              <img
+                v-if="!isPlaceholder(cell.name)"
+                class="img"
+                :src="imgUrl(cell.name)"
+                :alt="cell.name"
+                data-fallback-index="0"
+                @error="(e) => handleImgError(e, cell.name)"
+              />
               <div class="name">{{ cell.name }}</div>
             </div>
           </div>
@@ -114,7 +186,7 @@ function imgUrl(name) {
 .grid {
   display: grid;
   gap: 10px;
-  width: 48%;
+  width: 60%;
   margin: 14px auto 0;
 }
 .cell {
@@ -157,11 +229,27 @@ function imgUrl(name) {
 }
 .back {
   transform: rotateY(180deg);
-  background-size: cover;
-  background-position: center;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+}
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.back.placeholder {
+  background: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.back.placeholder .name {
+  background: transparent;
+  color: #333;
+  font-weight: 700;
 }
 .name {
   width: 100%;
@@ -172,4 +260,3 @@ function imgUrl(name) {
   font-size: 14px;
 }
 </style>
-
